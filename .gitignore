@@ -1,3 +1,7 @@
+# custom stuff
+.vs/
+*.csv
+
 # Prerequisites
 *.d
 
