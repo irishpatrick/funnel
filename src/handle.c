@@ -1,5 +1,6 @@
 #include "handle.h"
 #include <stdlib.h>
+#include <string.h>
 
 FUNNEL* funnel_open(const char* fn)
 {
@@ -26,9 +27,16 @@ FUNNEL* funnel_open(const char* fn)
     return out;
 }
 
-void funnel_push_str(FUNNEL* handle, const char* str)
+void funnel_write(FUNNEL* handle, const char* str)
 {
-    if (strlen(handle->front) + strlen(str) > FUNNEL_BUFFER_SIZE)
+    if (strlen(str) > FUNNEL_BUFFER_SIZE)
+    {
+        char tmp[FUNNEL_BUFFER_SIZE];
+        strncpy(tmp, str, FUNNEL_BUFFER_SIZE - 1);
+        funnel_write(handle, tmp);
+        funnel_write(handle, str + FUNNEL_BUFFER_SIZE);
+    }
+    else if (strlen(handle->front) + strlen(str) > FUNNEL_BUFFER_SIZE)
     {
         funnel_flush(handle);
     }
