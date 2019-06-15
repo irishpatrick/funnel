@@ -13,8 +13,16 @@ int main(int argc, char** argv)
         return 1;
     }
 
-    funnel_write(demo, "1,2,3,4,5,6,7,8,9,0\n");
-    funnel_push_int_row(demo, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0);
+    int i;
+    int j;
+    for (i = 0; i < 1024; ++i)
+    {
+        for (j = 0; j < 1024; ++j)
+        {
+            funnel_push_int(demo, i * j);
+        }
+        funnel_write(demo, "\n");
+    }
 
     funnel_close(demo);
 

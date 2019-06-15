@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+static count = 0;
+
 FUNNEL* funnel_open(const char* fn)
 {
     FUNNEL* out = (FUNNEL*)malloc(sizeof(FUNNEL));
@@ -29,18 +31,23 @@ FUNNEL* funnel_open(const char* fn)
 
 void funnel_write(FUNNEL* handle, const char* str)
 {
-    if (strlen(str) > FUNNEL_BUFFER_SIZE)
+    if (strlen(str) > FUNNEL_BUFFER_SIZE - 1)
     {
+        //printf("INFO\tsplit write\n");
         char tmp[FUNNEL_BUFFER_SIZE];
         strncpy(tmp, str, FUNNEL_BUFFER_SIZE - 1);
         funnel_write(handle, tmp);
         funnel_write(handle, str + FUNNEL_BUFFER_SIZE);
+        return;
     }
-    else if (strlen(handle->front) + strlen(str) > FUNNEL_BUFFER_SIZE)
+    else if (strlen(handle->front) + strlen(str) > FUNNEL_BUFFER_SIZE - 1)
     {
+        //printf("INFO\tpre flush %d\n", ++count);
         funnel_flush(handle);
     }
 
+    //printf("INFO\tstrcat call\n");
+    
     strcat(handle->front, str);
 }
 
