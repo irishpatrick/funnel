@@ -43,7 +43,24 @@ void funnel_push_uint(HANDLE* handle, unsigned long value)
 
 void funnel_push_uint_row(HANDLE* handle, int num, ...)
 {
+    char tmp[SCRATCH_BUFFER_SIZE];
+    tmp[0] = 0;
 
+    va_list list;
+    int i;
+
+    va_start(list, num);
+    for (i = 0; i < num; ++i)
+    {
+        unsigned long value = va_arg(list, unsigned long);
+        sprintf(tmp, "%lu,", value);
+        funnel_write(handle, tmp);
+        tmp[0] = '\0';
+    }
+
+    funnel_write(handle, "\n");
+
+    va_end(list);
 }
 
 void funnel_push_float(HANDLE* handle, double value)
@@ -54,7 +71,24 @@ void funnel_push_float(HANDLE* handle, double value)
     funnel_write(handle, tmp);
 }
 
-void funnel_push_float_row(HANDLE* handle, double value)
+void funnel_push_float_row(HANDLE* handle, int num, ...)
 {
+    char tmp[SCRATCH_BUFFER_SIZE];
+    tmp[0] = 0;
 
+    va_list list;
+    int i;
+
+    va_start(list, num);
+    for (i = 0; i < num; ++i)
+    {
+        double value = va_arg(list, double);
+        sprintf(tmp, "%f,", value);
+        funnel_write(handle, tmp);
+        tmp[0] = '\0';
+    }
+
+    funnel_write(handle, "\n");
+
+    va_end(list);
 }
