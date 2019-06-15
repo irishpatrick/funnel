@@ -1,8 +1,16 @@
+/**
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 #include "handle.h"
 #include <stdlib.h>
 #include <string.h>
-
-static count = 0;
 
 HANDLE* funnel_open(const char* fn)
 {
@@ -33,7 +41,6 @@ void funnel_write(HANDLE* handle, const char* str)
 {
     if (strlen(str) > FUNNEL_BUFFER_SIZE - 1)
     {
-        //printf("INFO\tsplit write\n");
         char tmp[FUNNEL_BUFFER_SIZE];
         strncpy(tmp, str, FUNNEL_BUFFER_SIZE - 1);
         funnel_write(handle, tmp);
@@ -42,12 +49,9 @@ void funnel_write(HANDLE* handle, const char* str)
     }
     else if (strlen(handle->front) + strlen(str) > FUNNEL_BUFFER_SIZE - 1)
     {
-        //printf("INFO\tpre flush %d\n", ++count);
         funnel_flush(handle);
     }
 
-    //printf("INFO\tstrcat call\n");
-    
     strcat(handle->front, str);
 }
 
