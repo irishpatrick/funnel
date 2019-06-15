@@ -3,13 +3,13 @@
 #include "defines.h"
 #include <stdio.h>
 
-typedef struct _FUNNEL
+typedef struct _HANDLE
 {
     FILE* fp;
     char* front;
-} FUNNEL;
+} HANDLE;
 
-FUNNEL* funnel_open(const char*);
-void funnel_write(FUNNEL*, const char*);
-void funnel_flush(FUNNEL*);
-void funnel_close(FUNNEL*);
+HANDLE* funnel_open(const char*);
+void funnel_write(HANDLE*, const char*);
+void funnel_flush(HANDLE*);
+void funnel_close(HANDLE*);

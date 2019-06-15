@@ -6,7 +6,7 @@ int main(int argc, char** argv)
 {
     printf("hello world\n");
 
-    FUNNEL* demo = funnel_open("D:\\Github\\funnel\\test.csv");
+    FUNNEL demo = funnel_open("D:\\Github\\funnel\\test.csv");
     if (demo == NULL)
     {
         printf("cannot open funnel\n");

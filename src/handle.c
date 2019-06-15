@@ -4,9 +4,9 @@
 
 static count = 0;
 
-FUNNEL* funnel_open(const char* fn)
+HANDLE* funnel_open(const char* fn)
 {
-    FUNNEL* out = (FUNNEL*)malloc(sizeof(FUNNEL));
+    HANDLE* out = (HANDLE*)malloc(sizeof(HANDLE));
     if (out == NULL)
     {
         return NULL;
@@ -29,7 +29,7 @@ FUNNEL* funnel_open(const char* fn)
     return out;
 }
 
-void funnel_write(FUNNEL* handle, const char* str)
+void funnel_write(HANDLE* handle, const char* str)
 {
     if (strlen(str) > FUNNEL_BUFFER_SIZE - 1)
     {
@@ -51,13 +51,13 @@ void funnel_write(FUNNEL* handle, const char* str)
     strcat(handle->front, str);
 }
 
-void funnel_flush(FUNNEL* handle)
+void funnel_flush(HANDLE* handle)
 {
     fwrite(handle->front, 1, strlen(handle->front), handle->fp);
     handle->front[0] = '\0';
 }
 
-void funnel_close(FUNNEL* handle)
+void funnel_close(HANDLE* handle)
 {
     funnel_flush(handle);
     fclose(handle->fp);
